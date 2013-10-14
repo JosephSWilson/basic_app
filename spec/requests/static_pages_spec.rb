@@ -2,76 +2,44 @@ require 'spec_helper'
 
 describe "Static pages" do
 
-  describe "Home page" do
+  subject { page }
 
-    it "should have the content 'Basic App'" do
-      visit '/static_pages/home'
-      expect(page).to have_content('Basic App')
-    end
-
-    it "should have the base title" do
-    	visit '/static_pages/home'
-    	expect(page).to have_title("Ruby on Rails Tutorial Basic App")
-    end
-
-    it "should not have a custom page title" do
-      visit '/static_pages/home'
-      expect(page).not_to have_title('| Home')
-    end
+  shared_examples_for "all static pages" do
+    it { should have_selector('h1', text: heading) }
+    it { should have_title(full_title(page_title)) }
   end
 
- describe "Help page" do
+  describe "Home page" do
+    before { visit root_path }
+    let(:heading) { 'Basic App' }
+    let(:page_title) { '' }
 
-    it "should have the content 'Help'" do
-      visit '/static_pages/help'
-      expect(page).to have_content('Help')
-    end
+    it_should_behave_like "all static pages"
+    it { should_not have_title('|Home') }
+  end
 
-    it "should have the base title" do
-      visit '/static_pages/about'
-      expect(page).to have_title("Ruby on Rails Tutorial Basic App")
-    end
+  describe "Help page" do
+    before { visit help_path }
+    let(:heading) { 'Help' }
+    let(:page_title) { 'Help' }
 
-    it "should not have a custom page title" do
-      visit '/static_pages/about'
-      expect(page).not_to have_title('| About')
-    end
+    it_should_behave_like "all static pages"
   end
 
   describe "About page" do
+    before { visit about_path }
+    let(:heading) { 'About' }
+    let(:page_title) { 'About Us' }
 
-  	it "should have the content 'About Us'" do
-  		visit '/static_pages/about'
-  		expect(page).to have_content('About Us')
-  	end
-
-  	it "should have the base title" do
-      visit '/static_pages/about'
-      expect(page).to have_title("Ruby on Rails Tutorial Basic App")
-    end
-
-    it "should not have a custom page title" do
-      visit '/static_pages/about'
-      expect(page).not_to have_title('| About Us')
-    end
+    it_should_behave_like "all static pages"
   end
 
-  describe "Contacts page" do
+  describe "Contact page" do
+    before { visit contact_path }
+    let(:heading) { 'Contact' }
+    let(:page_title) { 'Contact' }
 
-  		it "should have the content 'Contacts'" do
-  		visit '/static_pages/contacts'
-  		expect(page).to have_content('Contacts')
-  	end
-
-  	it "should have the base title" do
-      visit '/static_pages/contacts'
-      expect(page).to have_title("Ruby on Rails Tutorial Basic App")
-    end
-
-    it "should not have a custom page title" do
-      visit '/static_pages/contacts'
-      expect(page).not_to have_title('| Contacts')
-    end
+    it_should_behave_like "all static pages"
   end
 end
 
